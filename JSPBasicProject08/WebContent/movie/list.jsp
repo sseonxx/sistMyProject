@@ -10,6 +10,26 @@
     	cno="1";
     int index=Integer.parseInt(cno);
     List<MovieBean> list=dao.movieListData(index);
+    
+    //쿠키 읽기 =여러개일 테이까 배열로 받는다
+    List<MovieBean> cList = new ArrayList<MovieBean>();
+    Cookie[] cookies=request.getCookies();
+    
+    if(cookies!=null && cookies.length>0)
+    {
+    	for(int i=0;i<cookies.length;i++)
+    	{
+    		if(cookies[i].getName().startsWith("m"))
+    		{
+    			String value= cookies[i].getValue();
+    			MovieBean bean= dao.movieDetailData(Integer.parseInt(value));
+    			cList.add(bean);
+    		}
+    	}
+    }
+    
+    
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -35,7 +55,7 @@
        %>
              <div class="col-md-3">
 			    <div class="thumbnail">
-			      <a href="#">
+			      <a href="detail_before.jsp?mno=<%=bean.getMno()%>">
 			        <img src="<%=bean.getPoster() %>" alt="Lights" style="width:100%">
 			        <div class="caption">
 			          <p style="font-size: 8pt"><%=bean.getTitle() %></p>
@@ -49,8 +69,19 @@
      </div>
      <div class="row">
       <h3>최근 방문 영화</h3>
+      <a href="#" class="btn btn-sm btn-success">전체삭제</a>
       <hr>
       <%-- 쿠키에 저장된 영화를 보여준다  --%>
+      <%
+      	for(int i=cList.size()-1 ; i>=0 ; i--) //최신것을 가장 위로 출력하기 위해
+      	{
+      		MovieBean b=cList.get(i);
+      %>
+      		<img src="<%=b.getPoster()%>" width="100" height="150">		
+      <%
+      	}
+      %>
+      
      </div>
    </div>
 </body>
