@@ -69,7 +69,7 @@
      </div>
      <div class="row">
       <h3>최근 방문 영화</h3>
-      <a href="#" class="btn btn-sm btn-success">전체삭제</a>
+      <a href="delete.jsp" class="btn btn-sm btn-success">전체삭제</a>
       <hr>
       <%-- 쿠키에 저장된 영화를 보여준다  --%>
       <%
